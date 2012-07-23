@@ -1,5 +1,5 @@
 (function(){
-  var vm, fs, path, bootSC;
+  var vm, fs, path, bootSC, __replace = ''.replace;
   vm = require('vm');
   fs = require('fs');
   path = require('path');
@@ -37,7 +37,7 @@
       });
     };
     SC._init = function(snapshot, log, DB, room, io){
-      var log, sandbox, SocialCalc, ss, div, parts, line, cmdstr;
+      var sandbox, SocialCalc, ss, div, parts, line, cmdstr;
       log == null && (log = []);
       if (SC[room] != null) {
         SC[room]._doClearCache();
@@ -77,7 +77,7 @@
       vm.runInContext('ss = new SocialCalc.SpreadsheetControl', sandbox);
       SocialCalc.RecalcInfo.LoadSheet = function(ref){
         var serialization, parts;
-        __compose((ref),(replace(/[^a-zA-Z0-9]+/g, '').toLowerCase()));
+        ref = (__replace.call(ref, /[^a-zA-Z0-9]+/g, '')).toLowerCase();
         if (SC[ref]) {
           serialization = SC[ref].CreateSpreadsheetSave();
           parts = SC[ref].DecodeSpreadsheetSave(serialization);
@@ -143,9 +143,4 @@
     };
     return SC;
   };
-  function __compose(f, g){
-    return function(){
-      return f(g.apply(this, arguments)); 
-    }
-  }
 }).call(this);
